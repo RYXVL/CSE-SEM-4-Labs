@@ -26,7 +26,7 @@ int* sieve(int number) {
         if(arr[i] > 0) count++;
 	
     int j = 2;
-    int* brr=(int*)calloc(count+1, sizeof(int));
+    int* brr=(int*)calloc(count+2, sizeof(int));
 	brr[0] = count;
 	brr[1] = opcount;
 
@@ -84,7 +84,7 @@ void gcd(int m, int n) {
 
 int main() {
 	printf("gcd : m+n : opcount\n");
-    int iter = 10;
+    int iter = 15;
     int a = 1, b = 2, c = 0;
     while(iter--){
         gcd(a, b);
