@@ -1,28 +1,25 @@
 #include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-#include<string.h>
 
-int consec_int(int m, int n) {
-    int t = m<n?m:n;
-    while(1) {
-        if(m%t==0) {
-            if(n%t==0)
-                return t;
-        }
-        t--;
+void gcd(int a, int b){
+    int opcount = 0;
+    int res = a <= b ? a : b;
+    int i = 0;
+    for(i = res; i > 1; i--){
+        opcount++;
+        if(a % i == 0 && b % i == 0) break;
     }
+    printf("%d : %d : %d\n", i, a+b, opcount);
 }
 
-int main() {
-    int m, n;
-    printf("Enter both the numbers: ");
-    scanf("%d %d", &m, &n);
-    if((m<0 && n<0) || (m==0 && n==0)){
-        printf("Incorrect Input Entered.");
-        exit(0);
+int main(){
+    int a = 2, b = 3, c = 0;
+    int iter = 20;
+    printf("gcd : m+n : opcount\n");
+    while(iter--){
+        gcd(a, b);
+        c = a + b;
+        a = b;
+        b = c;
     }
-    int consec_int_no = consec_int(m, n);
-    printf("The gcd of %d and %d is %d.", m, n, consec_int_no);
     return 0;
 }
