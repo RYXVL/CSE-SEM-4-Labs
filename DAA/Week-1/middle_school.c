@@ -85,7 +85,7 @@ void gcd(int m, int n) {
 int main() {
 	printf("gcd : m+n : opcount\n");
     int iter = 15;
-    int a = 1, b = 2, c = 0;
+    int a = 1, b = 2, c;
     while(iter--){
         gcd(a, b);
         c = a + b;
