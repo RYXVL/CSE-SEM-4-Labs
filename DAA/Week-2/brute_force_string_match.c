@@ -1,29 +1,23 @@
 #include<stdio.h>
 
 void searchString(char *main_string, int size_of_main_string, char *search_string, int size_of_search_string) {
-    int flag;
-    int iterations;
-    for(int i=0; i<size_of_main_string-size_of_search_string+1; i++) {
-        iterations = 0;
-        flag = 0;
-        if(main_string[i]==search_string[iterations]) {
-            i++;
-            iterations++;
+    // printf("%s\n",  main_string);
+    // printf("%s\n", search_string);
+    // printf("%d\n",  size_of_main_string);
+    // printf("%d\n", size_of_search_string);
+    int flag = 0;
+    for(int i=0; i<size_of_main_string; i++) {
+        // flag = 0;
+        if(main_string[i]==search_string[flag]) {
             flag++;
-            for(iterations; iterations<size_of_search_string; iterations++) {
-                if(main_string[i]!=search_string[iterations]) {
-                    i+=iterations;
-                    break;
-                }
-                i++;
-                iterations++;
-                flag++;
-            }
-            if(flag==size_of_search_string)
-                printf("Substring found!");
+            continue;
         }
+        if(main_string[i]!=search_string[flag]) flag=0;
     }
-    printf("Substring not found!");
+    if(flag==size_of_search_string)
+        printf("Substring found!");
+    else
+        printf("Substring not found!");
 }
 
 int main() {
@@ -39,9 +33,14 @@ int main() {
     char search_string[size_of_search_string];
 
     printf("Enter the main string: ");
+    fflush(stdin);
     scanf("%s", main_string);
     printf("Enter the string to be searched for: ");
+    fflush(stdin);
     scanf("%s ", search_string);
+
+    // printf("%s\n",  main_string);
+    // printf("%s\n", search_string);
 
     searchString(main_string, size_of_main_string, search_string, size_of_search_string);
 
