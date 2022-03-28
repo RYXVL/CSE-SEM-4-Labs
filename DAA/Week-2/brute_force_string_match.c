@@ -3,22 +3,32 @@
 
 void searchString(char *main_string, int size_of_main_string, char *search_string, int size_of_search_string) {
     int flag = 0;
-    for(int i=0; i<size_of_main_string; i++) {
-        if(main_string[i]==search_string[flag]) {
-            flag++;
-            continue;
+    int opcount = 0;
+    for(int i=0; i<size_of_main_string-size_of_search_string+1; i++) {
+        for(int j=i; j<=i+size_of_search_string-1; j++) {
+            opcount++;
+            if(main_string[j]==search_string[flag]) {
+                flag++;
+                continue;
+            }
+            else {
+                flag = 0;
+                break;
+            }   
         }
-        flag=0;
+        if(flag==size_of_search_string) {
+            printf("Substring found!\n");
+            printf("Opcount: %d\n", opcount);
+            return;
+        }
     }
-    if(flag==size_of_search_string)
-        printf("Substring found!\n");
-    else
-        printf("Substring not found!\n");
+    printf("Substring not found!\n");
+    printf("%d\n", opcount);
 }
 
 int main() {
     
-    char main_string[20] = {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'};
+    char main_string[21] = "aaaaaaaaaaaaaaaaaaaa\0";
     
     for(int i=0; i<20; i++) {
         if(i==0) {
@@ -28,7 +38,7 @@ int main() {
             continue;
         }
         char* search_string = (char*)calloc(i+1, sizeof(char));
-        for(int j=0; j<i+1; j++) {
+        for(int j=0; j<(i+1); j++) {
             if(j==i) {
                 search_string[j]='b';
                 continue;
