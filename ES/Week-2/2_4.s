@@ -18,9 +18,9 @@ Reset_Handler
 	MOV R7, #1 ; holds the carry during each iteration
 L1	LDR R4, [R0], #-4
 	LDR R5, [R1], #-4
-	SUB R5, R5, #1
-	ADD R5, R5, R7
 	SUBS R4, R4, R5
+	SUB R4, R4, #1
+	ADD R4, R4, R7
 	STR R4, [R2], #4
 	MOV R7, #0
 	ADC R7, #0
