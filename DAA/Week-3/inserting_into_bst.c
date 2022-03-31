@@ -57,33 +57,100 @@ void insertIntoBST(nodeptr* root, int data) {
 	}
 }
 
+// void inOrder(nodeptr root) {
+// 	if(!root)
+// 		return;
+// 	inOrder(root->llink);
+// 	printf("%d ", root->data);
+// 	inOrder(root->rlink);
+// }
+
+// void preOrder(nodeptr root) {
+// 	if(!root)
+// 		return;
+// 	printf("%d ", root->data);
+// 	preOrder(root->llink);
+// 	preOrder(root->rlink);
+// }
+
+// void postOrder(nodeptr root) {
+// 	if(!root)
+// 		return;
+// 	postOrder(root->llink);
+// 	postOrder(root->rlink);
+// 	printf("%d ", root->data);
+// }
+
 void inOrder(nodeptr root) {
-	if(!root)
-		return;
-	inOrder(root->llink);
-	printf("%d ", root->data);
-	inOrder(root->rlink);
+	int top = -1;
+	nodeptr stack[100];
+	nodeptr current = root;
+	while(current) {
+		stack[++top] = current;
+		current = current->llink;
+	}
+	while(top != -1) {
+		current = stack[top--];
+		printf("%d ", current->data);
+		current = current->rlink;
+		while(current) {
+			stack[++top] = current;
+			current = current->llink;
+		}
+	}
 }
 
 void preOrder(nodeptr root) {
-	if(!root)
-		return;
-	printf("%d ", root->data);
-	inOrder(root->llink);
-	inOrder(root->rlink);
+	int top = -1;
+	nodeptr stack[100];
+	nodeptr current = root;
+	while(current) {
+		printf("%d ", current->data);
+		stack[++top] = current;
+		current = current->llink;
+	}
+	while(top != -1) {
+		current = stack[top--];
+		current = current->rlink;
+		while(current) {
+			printf("%d ", current->data);
+			stack[++top] = current;
+			current = current->llink;
+		}
+	}
 }
 
 void postOrder(nodeptr root) {
-	if(!root)
-		return;
-	inOrder(root->llink);
-	inOrder(root->rlink);
-	printf("%d ", root->data);
+	int top = -1;
+	nodeptr stack[100];
+	nodeptr current = root;
+	while(current) {
+		stack[++top] = current;
+		current = current->llink;
+	}
+	while(top != -1) {
+		while(current) {
+			// printf("%d ", current->data);
+			stack[++top] = current;
+			current = current->llink;
+		}
+		current = stack[top--];
+		printf("%d ", current->data);
+		current = current->rlink;
+		if(current->rlink == NULL)
+			current = stack[top--];
+		while(current) {
+			// printf("%d ", current->data);
+			stack[++top] = current;
+			current = current->llink;
+		}	
+	}
 }
 
 int main() {
 	nodeptr root = NULL;
 	int iteration = 1;
+	int n;
 	int choice;
 	int data;
 	while(iteration) {
@@ -91,9 +158,13 @@ int main() {
 		scanf("%d", &choice);
 		switch(choice) {
 			case 1:
-				printf("Enter data to be inserted: ");
-				scanf("%d", &data);
-				insertIntoBST(&root, data);
+				printf("Enter number of numbers to be inserted: ");
+				scanf("%d", &n);
+				for(int i=0; i<n; i++) {
+					printf("Enter data to be inserted: ");
+					scanf("%d", &data);
+					insertIntoBST(&root, data);
+				}
 				break;
 			case 2:
 				printf("Inorder Traversal:\n");
