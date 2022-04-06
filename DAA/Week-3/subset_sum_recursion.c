@@ -5,12 +5,12 @@ int opcount = 0;
 
 int subsetSum(int* terms, int number_of_terms, int index, int sum) {
     opcount++;
-	if(sum == 0)
+    if(sum == 0)
         return 1;
     if(index + 1 == number_of_terms && terms[index] != sum)
         return 0;
-	if(index + 1 == number_of_terms && terms[index] == sum) 
-		return 1;
+    if(index + 1 == number_of_terms && terms[index] == sum) 
+	return 1;
     return subsetSum(terms, number_of_terms, index + 1, sum - terms[index]) | subsetSum(terms, number_of_terms, index + 1, sum);
 }
 
