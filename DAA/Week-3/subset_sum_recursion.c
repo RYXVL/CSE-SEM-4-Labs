@@ -2,14 +2,18 @@
 #include<stdlib.h>
 
 int opcount = 0;
+
 int subsetSum(int* terms, int number_of_terms, int index, int sum) {
     opcount++;
 	if(sum == 0)
         return 1;
-    else if(index + 1 == number_of_terms && terms[index] != sum)
+    if(index + 1 == number_of_terms && terms[index] != sum)
         return 0;
-    return subsetSum(terms, number_of_terms, index + 1, sum - terms[index]) || subsetSum(terms, number_of_terms, index + 1, sum);
+	if(index + 1 == number_of_terms && terms[index] == sum) 
+		return 1;
+    return subsetSum(terms, number_of_terms, index + 1, sum - terms[index]) | subsetSum(terms, number_of_terms, index + 1, sum);
 }
+
 
 int main() {
 	int number_of_terms;
