@@ -1,0 +1,52 @@
+; Write an assembly language program to find GCD and LCM of two 8 bit numbers.
+	AREA RESET, DATA, READONLY
+	EXPORT __Vectors
+__Vectors
+	DCD 0X10001000
+	DCD Reset_Handler
+	ALIGN
+	AREA mycode, CODE, READONLY
+	ENTRY
+	EXPORT Reset_Handler
+Reset_Handler
+	LDR R0, =X
+	LDR R1, =Y
+	LDR R2, [R0]
+	LDR R3, [R1]
+	CMP R2, R3
+	MOVCS	R4, R3
+	MOVCC	R4, R2
+	ADD R4, R4, #1
+ALG	SUB R4, R4, #1
+	LDR R2, [R0]
+	BL DIV
+	MOV R5, #1
+	MUL R5, R5, R4
+	MUL R5, R5, R8
+	LDR R2, [R0]
+	CMP R2, R5
+	BNE ALG
+	LDR R2, [R1]
+	BL DIV
+	MOV R6, #1
+	MUL R6, R6, R4
+	MUL R6, R6, R8
+	LDR R2, [R1]
+	CMP R2, R6
+	BNE ALG
+	LDR R7, =GCD
+	STR R4, [R7]
+	B STOP
+DIV	MOV R8, #0
+UP	SUB R2, R2, R4
+	ADD R8, R8, #1
+	CMP R2, R4
+	BHS UP
+	BX LR
+STOP B STOP
+X DCD 24
+Y DCD 12
+	AREA mydata, DATA, READWRITE
+GCD DCD 0
+LCM DCD 0
+	END
