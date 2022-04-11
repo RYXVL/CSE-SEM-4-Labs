@@ -18,10 +18,10 @@ void permute(int *a, int l, int r, int permutations_matrix[], int* min_cost, int
         sum = 0;
         for(int i=0; i<=r; i++)
             sum+= cost_matrix[a[i]-1][i];
-        if(sum<*min_cost){
+        if(sum<*min_cost) {
             *min_cost = sum;
             for(int i=0; i<number_of_people; i++)
-            permutations_matrix[i] = a[i];
+                permutations_matrix[i] = a[i];
         }
     }
     else {
