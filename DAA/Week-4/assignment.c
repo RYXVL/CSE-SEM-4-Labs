@@ -57,7 +57,7 @@ int main() {
         }
     }
     permute(person_order, 0, number_of_people-1, permutations_matrix, &min_cost, cost_matrix);
-    printf("%d\n", opcount);
+    printf("Opcount: %d\n", opcount);
     printf("Min Cost: %d\n", min_cost);
     for(int i=0; i<number_of_people; i++)
         printf("Person %d Does Job %d Cost %d\n", i+1, permutations_matrix[i], cost_matrix[i][permutations_matrix[i]-1]);
