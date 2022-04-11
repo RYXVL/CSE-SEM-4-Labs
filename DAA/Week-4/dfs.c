@@ -14,14 +14,9 @@ void dfsAtVertex(int vertex, int adjacency_matrix[number_of_vertices][number_of_
 	int flag = 0;
 	for(int i=0; i<number_of_vertices; i++) {
 		if(i!=vertex && !(visited[i]) && adjacency_matrix[vertex][i]==1)
-			flag=1;
-
-	}
-	for(int i=0; i<number_of_vertices; i++) {
-		if(i!=vertex && !(visited[i]) && adjacency_matrix[vertex][i]==1)
 			dfsAtVertex(i, adjacency_matrix, visited);
 	}
-	if(flag==0) popStack[++tos_popStack] = vertex;
+	popStack[++tos_popStack] = vertex;
 }
 
 void dfs(int adjacency_matrix[number_of_vertices][number_of_vertices], int *visited) {
@@ -47,16 +42,13 @@ int main() {
 			adjacency_matrix[j][i]=adjacency_matrix[i][j];
 		}
 	}
+	printf("DFS Traveral: ");
 	dfs(adjacency_matrix, visited);
-	printf("Push Order: ");
+	printf("\nPush Order: ");
 	for(int i=0; i<=tos_pushStack; i++)
-		printf("%c\n", pushStack[i]+65);
-	printf("\n");
-	printf("Pop Order: ");
+		printf("%c ", pushStack[i]+65);
+	printf("\nPop Order: ");
 	for(int i=0; i<=tos_popStack; i++)
-		printf("%c\n", popStack[i]+65);
-	printf("\n");
+		printf("%c ", popStack[i]+65);
 	return 0;
 }
-
-// 1 0 0 1 1 0
