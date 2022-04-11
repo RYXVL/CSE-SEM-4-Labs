@@ -11,7 +11,6 @@ void dfsAtVertex(int vertex, int adjacency_matrix[number_of_vertices][number_of_
 	printf("%c ", vertex+65);
 	pushStack[++tos_pushStack] = vertex;
 	visited[vertex]=1;
-	int flag = 0;
 	for(int i=0; i<number_of_vertices; i++) {
 		if(i!=vertex && !(visited[i]) && adjacency_matrix[vertex][i]==1)
 			dfsAtVertex(i, adjacency_matrix, visited);
