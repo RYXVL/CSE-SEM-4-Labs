@@ -3,8 +3,7 @@
 int number_of_people;
 int opcount = 0;
 
-void swap(int *x, int *y)
-{
+void swap(int *x, int *y) {
     int temp;
     temp = *x;
     *x = *y;
