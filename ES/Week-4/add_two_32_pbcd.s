@@ -1,4 +1,4 @@
-; Convert a 16 bit hex number into its equivalent packed BCD.
+; Add two 32 bit packed BCD numbers and store the result in packed BCD form.
 	AREA RESET, DATA, READONLY
 	EXPORT __Vectors
 __Vectors
@@ -30,7 +30,7 @@ DIV CMP R4, R3
 	SUB R4, R4, R3
 	ADD R8, R8, #1
 	CMP R4, R3
-	BHS UP
+	BHS DIV
 UP2	BX LR
 FIN	STR R9, [R1]
 FIN2 MOV R9, R9, LSL R5
