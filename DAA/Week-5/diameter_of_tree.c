@@ -59,7 +59,7 @@ void insertIntoBST(nodeptr* root, int data) {
 
 int heightOfTree(nodeptr root) {
 	if(!root) return 0;
-	return 1+(heightOfTree(root->llink)>heightOfTree(root->rlink)?heightOfTree(root->rlink):heightOfTree(root->rlink));
+	return 1+(heightOfTree(root->llink)>heightOfTree(root->rlink)?heightOfTree(root->llink):heightOfTree(root->rlink));
 }
 
 int diameterOfTree(nodeptr root) {
