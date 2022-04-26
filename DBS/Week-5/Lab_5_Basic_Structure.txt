@@ -1,0 +1,136 @@
+create table employee ( ssn number(5) primary key, fname varchar(10), minit varchar(10), lname varchar(10), bdate date, address varchar(50), salary number(10), sex char(1) check(sex in('M', 'F')), supervisor_ssn number(5) );
+
+create table department ( deptname varchar(30), deptno number(5), primary key(deptname, deptno) );
+
+
+create table deptloc ( deptno number(5), deptname varchar(30), location varchar(50), primary key(deptno, deptname),  foreign key(deptno, deptname) references department(deptno, deptname) );
+
+
+
+create table project ( prjnum number(5), prjname varchar(30), prjloc varchar(50), primary key(prjnum, prjname) );
+
+
+create table manages ( ssn number(5), deptno number(5), deptname varchar(20), startdate date , primary key(ssn, deptno, deptname), foreign key(ssn) references employee(ssn), foreign key(deptno, deptname) references department(deptno, deptname) );
+
+create table works_on ( ssn number(5), prjname varchar(30), prjnum number(5), hours number(5), foreign key(ssn) references employee(ssn), foreign key(prjname, prjnum) references project(prjname, prjnum) );
+
+
+
+
+alter table employee add works_for_name varchar(20);
+
+alter table employee add works_for_no number(5);
+
+alter table employee add constraint c foreign key(works_for_name, works_for_no) references department(deptname, deptno);
+
+alter table project add ctrldept_name varchar(30);
+
+alter table project add ctrldept_num number(5);
+
+alter table project add constraint c1 foreign key(ctrldept_name, ctrldept_num) references department(deptname, deptno);
+
+alter table department add num_of_emp number(5);
+
+create table dependent ( ssn number(5), name varchar(20), sex char(1) check(sex in('M', 'F')), dob date, relationship varchar(20), primary key(ssn, name), foreign key(ssn) references employee(ssn) );
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+insert into department values ('Biology', 10001,  NULL);
+insert into department values ('Comp. Sci.', 10002, NULL);
+insert into department values ('Elec. Eng.', 10003, NULL);
+insert into department values ('Finance', 10004, NULL);
+insert into department values ('History', 10005, NULL);
+insert into department values ('Music', 10006, NULL);
+insert into department values ('Physics', 10007, NULL);
+insert into department values ('Research', 10008, NULL);
+
+
+insert into employee values (00001, 'Srinivasan', 'S.', 'Ram', '25-jun-02', 'Mangalore', '95000', 'M', NULL, 'Comp. Sci.', 10002);
+insert into employee values (00002, 'Wu', 'G.', 'Yong', '20-jul-01', 'Bangalore', '75000', 'M', NULL, 'Finance', 10004);
+insert into employee values (00003, 'Kate', 'T.', 'Eziekel', '19-jan-00', 'Delhi', '70000', 'F', NULL, 'Music', 10006);
+insert into employee values (00004, 'Einstein', 'M.', 'Mozart', '29-dec-02', 'Kerala', '81000', 'M', NULL, 'Physics', 10007);
+insert into employee values (00005, 'El Said', 'M.', 'Laplace', '2-feb-01', 'Chennai', '83000', 'M', NULL, 'History', 10005);
+insert into employee values (00006, 'Gold', 'E.', 'Pattinson', '18-mar-03', 'Ahemdabad', '65000', 'M', 00004, 'Physics', 10007);
+insert into employee values (00007, 'Katz', 'G.', 'Kawley', '15-nov-00', 'Telangana', '70000', 'F', 00001, 'Comp. Sci.', 10002);
+insert into employee values (00008, 'Califieri', 'C.', 'Mike', '10-oct-01', 'Texas', '100000', 'F', NULL, 'Research', 10008);
+insert into employee values (00009, 'Singh', 'D.', 'Kaur', '5-aug-02', 'Punjab', '50000', 'M', 00002, 'Finance', 10004);
+insert into employee values (00010, 'Kristine', 'B.', 'Samuel', '7-sep-04', 'Haryana', '90000', 'F', NULL, 'Biology', 10001);
+insert into employee values (00011, 'Brandy', 'F.', 'Bright', '25-jun-05', 'UP', '97000', 'F', 00001, 'Comp. Sci.', 10002);
+insert into employee values (00012, 'Kim', 'H.', 'Heidy', '26-jul-01', 'Mumbai', '83000', 'F', 00008, 'Research', 10008);
+insert into employee values (00013, 'John', 'B.', 'Smith', '28-may-02', 'Houston, Texas', '73000', 'M', NULL, 'Elec. Eng.', 10003);
+
+
+
+insert into deptloc values(10001, 'Biology', 'Watson');
+insert into deptloc values(10002, 'Comp. Sci.', 'Taylor');
+insert into deptloc values(10003, 'Elec. Eng.', 'Painter');
+insert into deptloc values(10004, 'Finance', 'Packard');
+insert into deptloc values(10005, 'History', 'Mizley');
+insert into deptloc values(10006, 'Music', 'Wancoover');
+insert into deptloc values(10007, 'Physics', 'Xylen');
+insert into deptloc values(10008, 'Research', 'Zamster');
+
+
+insert into project values(70001, 'Alpha', 'Vanity', 'Comp. Sci.', 10002);
+insert into project values(70002, 'Beta', 'Emporium', 'Biology', 10001);
+insert into project values(70003, 'Gamma', 'Link', 'Research', 10008);
+insert into project values(70004, 'Delta', 'Linen', 'Finance', 10004);
+insert into project values(70005, 'Absilon', 'Spire', 'History', 10005);
+insert into project values(70006, 'Psy', 'Acuity', 'Research', 10008);
+insert into project values(70007, 'Xi', 'Hunt', 'Elec. Eng.', 10003);
+insert into project values(70008, 'Mu', 'Synergist', 'Music', 10006);
+insert into project values(70009, 'Rho', 'Trent', 'Phyiscs', 10007);
+insert into project values(70010, 'Couldron', 'Stanford', 'Physics', 10007);
+insert into project values(70011, 'ProductX', 'Texas', 'Physics', 10007);
+
+
+
+insert into manages values(00001, 10002, 'Comp. Sci.', '21-jul-00');
+insert into manages values(00002, 10004, 'Finance', '5-feb-01');
+insert into manages values(00003, 10006, 'Music', '7-dec-02');
+insert into manages values(00004, 10007, 'Physics', '1-mar-00');
+insert into manages values(00005, 10005, 'History', '29-sep-00');
+insert into manages values(00008, 10008, 'Research', '31-oct-01');
+insert into manages values(00010, 10001, 'Biology', '17-nov-02');
+insert into manages values(00013, 10003, 'Elec. Eng.', '11-may-02');
+
+
+insert into works_on values(00001, 'Alpha', 70001, 48);
+insert into works_on values(00002, 'Gamma', 70003, 56);
+insert into works_on values(00003, 'ProductX', 70011, 21);
+insert into works_on values(00004, 'Xi', 70007, 32);
+insert into works_on values(00005, 'Rho', 70009, 54);
+insert into works_on values(00006, 'Beta', 70002, 15);
+insert into works_on values(00007, 'Delta', 70004, 65);
+insert into works_on values(00008, 'Psy', 70006, 54);
+insert into works_on values(00009, 'Mu', 70008, 65);
+insert into works_on values(00010, 'Couldron', 70010, 51);
+insert into works_on values(00011, 'Alpha', 70011, 51);
+insert into works_on values(00012, 'Beta', 70002, 21);
+insert into works_on values(00013, 'Gamma', 70003, 32);
+
+
+insert into dependent values(00001, 'Rehan', 'M', '24-oct-07', 'Brother');
+insert into dependent values(00002, 'Mia', 'F', '15-nov-08', 'Sister');
+insert into dependent values(00004, 'Katie', 'F', '2-mar-09', 'Cousin');
+insert into dependent values(00006, 'Rohan', 'M', '3-jan-05', 'Friend');
+insert into dependent values(00007, 'Brian', 'M', '15-jul-04', 'Brother');
+insert into dependent values(00009, 'Lia', 'F', '11-may-02', 'Sister');
+insert into dependent values(00013, 'Lily', 'F', '19-dec-03', 'Sister');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
