@@ -1,0 +1,17 @@
+create table studenttable(rollno number(1), gpa number(2,1));
+insert into studenttable values(1, 5.8);
+insert into studenttable values(2, 6.5);
+insert into studenttable values(3, 3.4);
+insert into studenttable values(4, 7.8);
+insert into studenttable values(5, 9.5);
+
+
+
+declare
+  2  rno studenttable.gpa%TYPE;
+  3  begin
+  4  rno := &num;
+  5  select gpa into rno from studenttable where rollno = rno;
+  6  dbms_output.put_line(rno);
+  7  end;
+  8  /
