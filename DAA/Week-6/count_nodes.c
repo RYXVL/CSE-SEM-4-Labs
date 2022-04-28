@@ -57,17 +57,18 @@ void insertIntoBST(nodeptr* root, int data) {
 	}
 }
 
-void countNodes(nodeptr root, int *count) {
+void countNodes(nodeptr root, int *count, int *opcount) {
 	if(!root) return;
-	countNodes(root->llink, count);
+	countNodes(root->llink, count, opcount);
+	(*opcount)++;
 	(*count)++;
-	countNodes(root->rlink, count);
+	countNodes(root->rlink, count, opcount);
 }
 
 int main() {
-	// int n;
 	int data;
 	int count = 0;
+	int opcount = 0;
 	nodeptr root = NULL;
 	printf("Enter data to be inserted in the root: ");
 	scanf("%d", &data);
@@ -76,7 +77,8 @@ int main() {
 		printf("Enter data to be inserted or enter -1 to exit: ");
 		scanf("%d", &data);
 	} while(data!=-1);
-	countNodes(root, &count);
+	countNodes(root, &count, &opcount);
 	printf("Number of nodes in the tree are: %d\n", count);
+	printf("Opcount: %d\n", opcount);
 	return 0;
 }
