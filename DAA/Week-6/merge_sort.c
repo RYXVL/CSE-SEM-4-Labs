@@ -19,13 +19,11 @@ void merge(int arr[], int temp[], int left, int mid, int right) {
         }
     }
     while(left<=left_end) {
-        opcount++;
         temp[k] = arr[left];
         left++;
         k++;
     }
     while(mid<=right) {
-        opcount++;
         temp[k] = arr[mid];
         mid++;
         k++;
