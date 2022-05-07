@@ -1,37 +1,51 @@
-#include <LPC17xx.h>
+#include<LPC17xx.h>
 
-int main(void)
+unsigned char tohex[10]={0X3F, 0X06, 0X5B, 0X4F, 0X66, 0X6D, 0X7D, 0X07, 0X7F, 0X6F};
+
+int arr[4];
+
+unsigned int i, j;
+
+int main()
 {
-	unsigned int j;
-	unsigned long LED;
-
-	//Configure Port0 PINS P0.4-P0.11 as GPIO function
-	LPC_PINCON->PINSEL0 &= 0xFF0000FF;
-	
-	//Configure P0.4-P0.11 as output port
-	LPC_GPIO0->FIODIR |= 0x00000FF0;
-	
-	LPC_PINCON->PINSEL4 &= 0xFCFFFFFF;
-	LPC_GPIO2->FIODIR &= 0xFFFFEFFF;   //P2.12 as input port
-	while(1)
-	{
-		if(LPC_GPIO2->FIOPIN & 1<<12) //switch not pressed
-		{
-			for(LED=255;LED>=0;LED--) //Down Counter
-			{
-				LPC_GPIO0->FIOPIN = LED<<4;
-
-				for(j=0;j<1000;j++);//a random delay
-				
-			} // loop for 255 times
-		} else {
-			for(LED=0;LED<256;LED++) //Up counter
-			{
-				LPC_GPIO0->FIOPIN = LED<<4;
-			
-				for(j=0;j<1000;j++);//a random delay
-				
-			} // loop for 255 times
-		}
-	}
+    	LPC_GPIO0->FIODIR|=0XFF0;
+	LPC_GPIO1->FIODIR|=0XF<<23;
+	LPC_GPIO2->FIODIR &= ~(1<<0);
+while(1)
+     {
+			 if(LPC_GPIO2->FIOPIN & 1<<0) 
+			 for(arr[3]=9; arr[3]>=0; arr[3]--){
+		for(arr[2]=9; arr[2]>=0; arr[2]--)
+	for(arr[1]=9; arr[1]>=0; arr[1]--)
+		for(arr[0]=9; arr[0]>=0; arr[0]--)
+			 {
+           for(i=0; i<4; i++)
+					{
+						LPC_GPIO1->FIOPIN=i<<23;
+						LPC_GPIO0->FIOPIN=tohex[arr[i]]<<4;
+						for(j=0; j<1000; j++);
+					}
+					for(j=0; j<1000; j++);
+					LPC_GPIO0->FIOCLR|=0X00000FF0;
+			}
+			 }
+			 else {
+				 			 for(arr[3]=0; arr[3]<=9; arr[3]++)
+		for(arr[2]=0; arr[2]<=9; arr[2]++)
+	for(arr[1]=0; arr[1]<=9; arr[1]++)
+		for(arr[0]=0; arr[0]<=9; arr[0]++)
+			 {
+           for(i=0; i<4; i++)
+					{
+						LPC_GPIO1->FIOPIN=i<<23;
+						LPC_GPIO0->FIOPIN=tohex[arr[i]]<<4;
+						for(j=0; j<1000; j++);
+					}
+					for(j=0; j<1000; j++);
+					LPC_GPIO0->FIOCLR|=0X00000FF0;
+			}
+			 
+		 
+      }
 }
+		 }
