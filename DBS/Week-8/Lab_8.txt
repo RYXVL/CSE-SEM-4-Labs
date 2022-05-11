@@ -1,0 +1,46 @@
+1
+
+create or replace procedure instcourse(dname instructor.dept_name%TYPE) is
+cursor inst is select instructor.name from instructor where dept_name = dname;
+cursor crs is select course.course_id from course where dept_name = dname;
+begin
+for i in inst
+loop
+dbms_output.put_line(i.name);
+end loop;
+for i in crs
+loop
+dbms_output.put_line(i.course_id);
+end loop;
+end;
+/
+
+
+
+declare
+begin
+instcourse('Physics');
+end;
+/
+
+
+
+2
+
+create or replace procedure popular_courses is
+cursor inst is with enrol as (select course_id, count(*) as cnt from takes group by course_id), deptenrol as (select course_id, dept_name, cnt from enrol natural join course), maxdeptcnt as (select dept_name, max(cnt) maxcnt from deptenrol group by dept_name) select dept_name, course_id, cnt from deptenrol natural join maxdeptcnt where deptenrol.cnt = maxdeptcnt.maxcnt;
+begin
+for i in inst
+loop
+dbms_output.put_line(i.dept_name || ' ' || i.course_id || '  ' || i.cnt);
+end loop;
+end;
+/
+
+
+
+declare
+begin
+popular_courses;
+end;
+/
