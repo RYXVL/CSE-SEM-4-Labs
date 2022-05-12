@@ -79,7 +79,7 @@ nodeptr balance(int data, nodeptr *root){
             if(prev->data > node->data) prev->left = node;
             else prev->right = node;
         }
-        newRoot = node;
+        else newRoot = node;
     }
     return newRoot;
 }
