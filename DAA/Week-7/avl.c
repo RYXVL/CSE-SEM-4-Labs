@@ -126,7 +126,7 @@ int main() {
     root = insertIntoBST(&root, 40);
     root = insertIntoBST(&root, 50);
     root = insertIntoBST(&root, 25);
-    printf("Preorder Traversal of AVL Tree is : ");
+    printf("Inorder Traversal of AVL Tree is : ");
     inOrder(root);
     return 0;
 }
