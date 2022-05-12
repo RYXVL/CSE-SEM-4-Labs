@@ -1,110 +1,149 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+ 
 typedef struct node* nodeptr;
-typedef struct node {
-	int data;
-	int balfac;
-	nodeptr llink;
-	nodeptr rlink;
+typedef struct node{
+    int key;
+    nodeptr left;
+    nodeptr right;
+    int height;
 }node;
 
-nodeptr getNode(int data) {
-	nodeptr newNode = (nodeptr)malloc(sizeof(*newNode));
-	newNode->data = data;
-	newNode->llink = newNode->rlink = NULL;
-	return newNode;
+nodeptr stack[100];
+int tos = -1;
+ 
+int max(int a, int b){
+    return a>b?a:b;
 }
 
-void insertIntoBST(nodeptr* root, int data) {
-	nodeptr newNode = getNode(data);
-	if(!(*root)) {
-		*root = newNode;
-		return;
-	}
-	nodeptr before = *root;
-	nodeptr after = *root;
-	if(data == (*root)->data) {
-		printf("Key Found\n");
-		return;
-	}
-	else if(data < (*root)->data)
-		after = (*root)->llink;
-	else if(data > (*root)->data)
-		after = (*root)->rlink;
-	while(after) {
-		if(data == after->data) {
-			printf("Key Found\n");
-			return;
-		}
-		else if(data < after->data) {
-			before = after;
-			after = after->llink;
-		}
-		else if(data > after->data) {
-			before = after;
-			after = after->rlink;
-		}
-	}
-	if(data < before->data) {
-		before->llink = newNode;
-		printf("Data Inserted.\n");
-		return;
-	}
-	else if(data > before->data) {
-		before->rlink = newNode;
-		printf("Data Inserted.\n");
-		return;
-	}
+int height(nodeptr root){
+    if (!root) return 0;
+    return 1+max(height(root->left), height(root->right));
+}
+ 
+nodeptr getNode(int key){
+    nodeptr newnode = (nodeptr)malloc(sizeof(*newnode));
+    newnode->key = key;
+    newnode->left = newnode->right = NULL;
+    newnode->height = 0;
+    return newnode;
+}
+ 
+void rightRotate(nodeptr* root, nodeptr* y)
+{
+    nodeptr og = *y;
+    nodeptr x = (*y)->left;
+    nodeptr T2 = x->right;
+    x->right = *y;
+    (*y)->left = T2;
+    (*y)->height = height(*y);
+    x->height = height(x);
+    og = x;
+    nodeptr new = stack[tos--];
+    if(!(new)) *root = x;
+    else {
+        if((new)->left->key = (*y)->key)
+            (new)->left = x;
+        else
+            (new)->right = x;
+    }
 }
 
-// void countNodes(nodeptr root, int *count, int *opcount) {
-// 	if(!root) return;
-// 	countNodes(root->llink, count, opcount);
-// 	(*opcount)++;
-// 	(*count)++;
-// 	countNodes(root->rlink, count, opcount);
-// }
-
-
-
-int heightOfTree(nodeptr root) {
-	if(!root) return 0;
-	return 1+(heightOfTree(root->llink)>heightOfTree(root->rlink)?heightOfTree(root->rlink):heightOfTree(root->rlink));
+void leftRotate(nodeptr* root, nodeptr* x){
+    nodeptr og = *x;
+    nodeptr y = (*x)->right;
+    nodeptr T2 = y->left;
+    y->left = *x;
+    (*x)->right = T2;
+    (*x)->height = height(*x);
+    y->height = height(y);
+    og = y;
+    nodeptr new = stack[tos--];
+    if(!(new)) *root = y;
+    else {
+        if((new)->left->key = (*x)->key)
+            (new)->left = y;
+        else
+            (new)->right = y;
+    }
+}
+ 
+int getBalance(nodeptr root){
+    if (!root) return 0;
+    return height(root->left) - height(root->right);
 }
 
-void balanceFactor(nodeptr root) {
-	int lh = heightOfTree(root->llink);
-	int rh = heightOfTree(root->rlink);
-	root->balfac = (lh - rh);
+
+void balance(nodeptr* root, int key){
+    while(tos != -1){
+        nodeptr node = stack[tos--];
+        node->height = height(node);
+        int balance = getBalance(node);
+        if (balance > 1 && key < node->left->key) rightRotate(root, &node);
+        if (balance < -1 && key > node->right->key) leftRotate(root, &node);
+        if (balance > 1 && key > node->left->key) {
+            leftRotate(root, &node->left);
+            rightRotate(root, &node);
+        }
+        if (balance < -1 && key < node->right->key){
+            rightRotate(root, &node->right);
+            leftRotate(root, &node);
+    }
+    }
 }
 
-void checkBalancedTree(nodeptr *root) {
-	if(!(*root)) return;
-	checkBalancedTree(&((*root)->llink));
-	balanceFactor(*root);
-	checkBalancedTree(&((*root)->rlink));
+void insert(nodeptr* root, int key){
+    nodeptr curr = *root;
+    while(1){
+        if(!curr) {
+            curr = getNode(key);
+            break;
+        }
+        stack[++tos] = curr;
+        if(key > curr->key){
+            if(!curr->right) {
+                curr->right = getNode(key);
+                break;
+            }
+            else curr = curr->right;
+        } 
+        else if(key < curr->key){ 
+            if(!curr->left) {
+                curr->left = getNode(key);
+                break;
+            }
+            else curr = curr->left;
+        }
+    }
+    balance(root, key);
 }
 
-void inOrder(nodeptr root) {
-	if(!root) return;
-	inOrder(root->llink);
-	printf("%d ", root->balfac);
-	inOrder(root->rlink);
+void inOrder(nodeptr root){
+    if(root){
+        inOrder(root->left);
+        printf("%d ", root->key);
+        inOrder(root->right);
+    }
 }
+ 
+int main()
+{
+    nodeptr root = getNode(10);
+    insert(&root, 20);
+    insert(&root, 30);
+    insert(&root, 40);
+    insert(&root, 50);
+    insert(&root, 25);
+  /*
 
-int main() {
-	int data;
-	nodeptr root = NULL;
-	printf("Enter data to be inserted in the root: ");
-	scanf("%d", &data);
-	do {
-		insertIntoBST(&root, data);
-		// checkBalancedTree(&root);
-		printf("Enter data to be inserted or enter -1 to exit: ");
-		scanf("%d", &data);
-	} while(data!=-1);
-	checkBalancedTree(&root);
-	inOrder(root);
-	return 0;
+            30
+           /  \
+         20   40
+        /  \     \
+       10  25    50
+  */
+ 
+  printf("Inorder traversal of the constructed AVL tree is \n");
+  inOrder(root);
+  return 0;
 }
