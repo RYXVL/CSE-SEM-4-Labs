@@ -4,11 +4,12 @@
 
 
 #define DATA 0xF<<23
-#define RS 1<<27
-#define EN 1<<28
+#define RS 1<<27 // rs is a command signal, 1 = data, 0=command
+#define EN 1<<28 // enable signal
+
+// 28 = en, 27 = rs, 26-23 = data
 
 int i=0,j=0;
-char msg1[1];
 char msg2[1];
 
 void initializeLCD(void);
@@ -38,12 +39,12 @@ void delay(int ms)
 void initializeLCD()
 {
   LPC_GPIO0->FIODIR|=(DATA|RS|EN);          // setting the p0.28 to p0.23 as output
-  writeData(0x33,0);                         // set the lcd un 8-bit mode
+  writeData(0x33,0);                         // set the lcd in 8-bit mode
   writeData(0x32,0);                       
   writeData(0x28,0);
-  writeData(0x0C,0);                 //isplay on , cursor off
-  writeData(0x06,0);
-  writeData(0x01,0);
+  writeData(0x0C,0);                 //display on , cursor off
+  writeData(0x06,0);									// increment cursor, shift right once
+  writeData(0x01,0);								// clear the display
 }
 
 void writeData(int data, int rs)
@@ -76,7 +77,7 @@ int main()
 		if(num==0) num++;
 	msg2[0] = num+'0';
   initializeLCD();
-  writeData(0x80,0);
+  writeData(0x80,0);				// force cursor to the beginning of the first line
   for(i=0; msg2[i]; i++)
 		{
 	  writeData(0x01,0);		
