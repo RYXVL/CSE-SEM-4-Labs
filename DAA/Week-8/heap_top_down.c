@@ -16,7 +16,7 @@ void heapify(int* arr, int end) {
 		flag = 0;
 		for(int i=0; i<=(end-1)/2; i++) {
             largest = i;
-			opcount+=4;
+			opcount+=5;
 			if(2*i+1<=end && arr[largest]<arr[2*i+1]) {
 				largest = 2*i+1;
 				flag = 1;
